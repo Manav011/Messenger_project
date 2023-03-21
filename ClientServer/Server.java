@@ -1,4 +1,4 @@
-package MessengerApp;
+package MessengerApp.ClientServer;
 
 import java.io.IOException;
 import java.net.*;
