@@ -1,6 +1,7 @@
+package MessengerApp;
+
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 
 public class ClientAccepter implements Runnable{
     ServerSocket ss;
@@ -17,7 +18,7 @@ public class ClientAccepter implements Runnable{
             try {
                 Socket a = ss.accept();
                 System.out.println("Client Accepted");
-                ClientHandler ia = new ClientHandler(a);
+                MessageSender ia = new MessageSender(a);
                 Thread th = new Thread(ia);
                 th.start();
             } catch (IOException e) {
