@@ -1,3 +1,5 @@
+package MessengerApp;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -9,6 +11,7 @@ public class Client {
         System.out.print("Enter Server IP address: ");
         String ip = sc.nextLine();
         Socket s = new Socket(ip, 5000);
+
         PrintWriter bw = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
         String temp = "";
         while (temp.isBlank()) {
@@ -18,7 +21,7 @@ public class Client {
         bw.println(temp);
         bw.flush();
 
-        GroupChat gc = new GroupChat(s);
+        MessageReciever gc = new MessageReciever(s);
         Thread th = new Thread(gc);
         th.start();
         temp = "";
@@ -27,5 +30,7 @@ public class Client {
             bw.println(temp);
             bw.flush();
         }
+
+        sc.close();
     }
 }
