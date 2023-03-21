@@ -1,4 +1,4 @@
-package MessengerApp;
+package MessengerApp.ClientServer;
 
 import java.io.*;
 import java.net.Socket;
