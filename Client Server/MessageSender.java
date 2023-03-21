@@ -1,9 +1,11 @@
+package MessengerApp;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ClientHandler implements Runnable{
-    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+public class MessageSender implements Runnable{
+    public static ArrayList<MessageSender> clientHandlers = new ArrayList<>();
     public static int clientNo;
     public final Socket socket;
     private final int clientID;
@@ -11,7 +13,7 @@ public class ClientHandler implements Runnable{
     private final PrintWriter printWriter;
     private final String name;
 
-    ClientHandler(Socket s) throws IOException {
+    MessageSender(Socket s) throws IOException {
         socket = s;
         bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream()));
         printWriter = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
@@ -47,7 +49,7 @@ public class ClientHandler implements Runnable{
 
     public void sendToAll(String str)
     {
-        for (ClientHandler clientHandler : clientHandlers)
+        for (MessageSender clientHandler : clientHandlers)
         {
             if (this.clientID != clientHandler.clientID)
             {
