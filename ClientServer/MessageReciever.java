@@ -1,11 +1,11 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+package MessengerApp.ClientServer;
+
+import java.io.*;
 import java.net.Socket;
 
-public class GroupChat implements Runnable{
+public class MessageReciever implements Runnable{
     Socket s;
-    GroupChat(Socket s)
+    MessageReciever(Socket s)
     {
         this.s = s;
     }
