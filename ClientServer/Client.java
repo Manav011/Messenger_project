@@ -25,7 +25,7 @@ public class Client {
         String temp = "";
 
         // storing name of the Client
-        while (temp.isBlank()) {
+        while (temp.isEmpty()) {
             System.out.print("Enter Name: ");
             temp = sc.nextLine();
         }
