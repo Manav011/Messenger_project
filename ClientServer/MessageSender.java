@@ -1,10 +1,8 @@
-package MessengerApp.ClientServer;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class MessageSender implements Runnable{
+public class MessageSender implements Runnable {
     public static ArrayList<MessageSender> clientHandlers = new ArrayList<>();
     public static int clientNo;
     public final Socket socket;
@@ -25,17 +23,17 @@ public class MessageSender implements Runnable{
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         String str = "";
+        // reading all the information on the InputStream
         while (socket.isConnected() && !str.equals("q")) {
             try {
                 str = bufferedReader.readLine();
                 if (!str.equals("q")) {
+                    // sending the informaion to OutputStream of Clients
                     sendToAll(this.name + ": " + str);
                 }
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 System.out.println();
             }
         }
@@ -47,12 +45,11 @@ public class MessageSender implements Runnable{
         }
     }
 
-    public void sendToAll(String str)
-    {
-        for (MessageSender clientHandler : clientHandlers)
-        {
-            if (this.clientID != clientHandler.clientID)
-            {
+    // sending message to all the Clients connected to Server except the Client who
+    // sent
+    public void sendToAll(String str) {
+        for (MessageSender clientHandler : clientHandlers) {
+            if (this.clientID != clientHandler.clientID) {
                 clientHandler.printWriter.println(str);
                 clientHandler.printWriter.flush();
             }
