@@ -3,9 +3,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class MessageSender implements Runnable {
-    public static ArrayList<MessageSender> clientHandlers = new ArrayList<>();
-    public static int clientNo;
-    public final Socket socket;
+    private final static ArrayList<MessageSender> clientHandlers = new ArrayList<>();
+    private static int clientNo;
+    private final Socket socket;
     private final int clientID;
     private final BufferedReader bufferedReader;
     private final PrintWriter printWriter;
