@@ -1,5 +1,4 @@
 import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -57,7 +56,7 @@ public class Login_Controller {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("Reg_page.fxml"));
             Stage primaryr = new Stage();
-            primaryr.initStyle(StageStyle.UNDECORATED);
+            // primaryr.initStyle(StageStyle.UNDECORATED);
             primaryr.setTitle("Connect =_=");
             primaryr.setScene(new Scene(root, 428, 518));
             primaryr.show();
@@ -96,7 +95,8 @@ public class Login_Controller {
 
         try {
             Statement statement = connectDB.createStatement();
-            ResultSet queryresult = statement.executeQuery(verifyLogin);
+            ResultSet queryresult = statement.executeQuery(verifyLogin); // execute query because SELECT commands
+                                                                         // returns
 
             while (queryresult.next()) {
                 if (queryresult.getInt(1) == 1) {
