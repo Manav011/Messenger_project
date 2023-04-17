@@ -30,7 +30,17 @@
       <Label layoutX="66.0" layoutY="342.0" text="Confirm Password" />
       <Button fx:id="closeButton" layoutX="264.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#ExitApp" prefHeight="34.0" prefWidth="106.0" style="-fx-background-color: #60EFFF;" text="Close" />
       <Button fx:id="registerButton" layoutX="61.0" layoutY="421.0" mnemonicParsing="false" onMouseClicked="#registerButtonAction" prefHeight="34.0" prefWidth="106.0" style="-fx-background-color: #60EFFF;" text="Register" />
-      <Label fx:id="registeredSuccessfullyLabel" layoutX="137.0" layoutY="75.0" prefHeight="19.0" prefWidth="197.0" textAlignment="CENTER" textFill="#005fff">
+      <Label fx:id="registeredSuccessfullyLabel" alignment="BASELINE_CENTER" layoutX="75.0" layoutY="75.0" prefHeight="19.0" prefWidth="307.0" textAlignment="CENTER" textFill="#005fff">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="reglabel1"  alignment="BASELINE_CENTER" layoutX="75.0" layoutY="85.0" prefHeight="19.0" prefWidth="307.0" textAlignment="CENTER" textFill="#005fff">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="reglabel2"  alignment="BASELINE_CENTER" layoutX="75.0" layoutY="95.0" prefHeight="19.0" prefWidth="307.0" textAlignment="CENTER" textFill="#005fff">
          <font>
             <Font name="System Italic" size="13.0" />
          </font>

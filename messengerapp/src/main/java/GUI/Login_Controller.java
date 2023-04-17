@@ -1,5 +1,6 @@
 package GUI;
 
+import Encryption.Encryptdecrypt;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,13 +17,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 //import javafx.stage.StageStyle;
 
-import java.sql.Statement;
+import java.sql.*;
 
 import database.*;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.util.Objects;
 
 public class Login_Controller {
@@ -92,24 +91,31 @@ public class Login_Controller {
     }
 
     @FXML
-    public void validateLogin() {
-        Databaseconnection connectNow = new Databaseconnection();
-        Connection connectDB = connectNow.getConnection();
+    public void validateLogin(){
+        Databaseconnection conector=new Databaseconnection();
+        Connection con = conector.getConnection();
 
-        String verifyLogin = "SELECT count(1) FROM accountsdata WHERE Username = '" + nameIn.getText()
-                + "' AND  Password = '" + passIn.getText() + "';";
+//        String verifyLogin = "SELECT count(1) FROM accountsdata WHERE Username = '" + nameIn.getText()
+//                + "' AND  Password = '" + passIn.getText() + "';";
 
         try {
-            Statement statement = connectDB.createStatement();
-            ResultSet queryresult = statement.executeQuery(verifyLogin); // execute query because SELECT commands
-                                                                         // returns
-
-            while (queryresult.next()) {
-                if (queryresult.getInt(1) == 1) {
-                    warningLabel.setText("Login Successful");
-                } else {
-                    warningLabel.setText("Invalid Username or Password");
+            PreparedStatement verifylogin=con.prepareStatement("SELECT * FROM accountsdata WHERE username = ?");
+            verifylogin.setString(1,nameIn.getText());
+            ResultSet rs=verifylogin.executeQuery();
+            if (rs.next()){
+                String encrypted_pass=rs.getString(5);
+                Encryptdecrypt decryptor =new Encryptdecrypt("1234567890123456");
+                String decryptedpass=decryptor.decrypt(encrypted_pass);
+                if(decryptedpass.equals(passIn.getText())){
+                    warningLabel.setText("Succsesfully loggedin");
                 }
+                else {
+                    warningLabel.setText("Wrong password");
+                }
+
+            }
+            else{
+                warningLabel.setText("User with this Username doesn't exist");
             }
         } catch (Exception e) {
             e.printStackTrace();

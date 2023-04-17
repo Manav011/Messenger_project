@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import Encryption.Encryptdecrypt;
 import database.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +17,8 @@ import javafx.stage.Stage;
 
 public class Register_Controller {
     private static int userId = 4;
+    public Label reglabel2;
+    public Label reglabel1;
 
     @FXML
     private Button closeButton;
@@ -54,8 +57,12 @@ public class Register_Controller {
     public void registerButtonAction(MouseEvent event) {
         confirmPassLabel.setText("");
         registeredSuccessfullyLabel.setText("");
-        Databaseconnection connectNow = new Databaseconnection();
-        Connection con = connectNow.getConnection();
+//        registeredSuccessfullyLabel.setText("Account already exist on this mobile number");
+//        reglabel1.setText("hello");
+//        reglabel2.setText("hello hi");
+        Databaseconnection conector=new Databaseconnection();
+        Connection con = conector.getConnection();
+
 
         if (nameTextField.getText().isEmpty() || usernameTextField.getText().isEmpty()
                 || mobilenoTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
@@ -84,8 +91,10 @@ public class Register_Controller {
                 upstmt.setString(2, usernameTextField.getText());
                 upstmt.setString(3, nameTextField.getText());
                 upstmt.setString(4, mobilenoTextField.getText());
-                upstmt.setString(5, passwordField.getText());
+                Encryptdecrypt encryptor =new Encryptdecrypt("1234567890123456");
                 if (passwordField.getText().equals(confPassField.getText())) {
+                    String encrypted_pass=encryptor.encrypt(passwordField.getText());
+                    upstmt.setString(5, encrypted_pass);
                     upstmt.executeUpdate();
                     registeredSuccessfullyLabel.setText("User registered successfully");
                 } else {

@@ -10,7 +10,7 @@ import java.util.Base64.Decoder;
 public class Encryptdecrypt {
     private byte[] key_value;
 
-    Encryptdecrypt(String key) {// Expected key is 16 Characters
+    public Encryptdecrypt(String key) {// Expected key is 16 Characters
         key_value = key.getBytes();// converting userDecide key into Byte array
     }
 

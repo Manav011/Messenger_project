@@ -7,24 +7,17 @@ import java.sql.Statement;
 
 public class Databaseconnection {
     public static Connection con;
+  public  Connection getConnection() {
+        try {
 
-    public Connection getConnection() {
+            con = DriverManager.getConnection("jdbc:mysql://localhost/messengerapp", "root", "1234");
+//            con= DriverManager.getConnection("jdbc:mysql://messenger.cqocdes0lc0n.ap-south-1.rds.amazonaws.com:3306/messengerapp", "admin", "12345678");
 
-        try{
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/messengerapp","root","1234");
-
-//            Statement stmt=con.createStatement();
-//            ResultSet rs=stmt.executeQuery("select * from accountsdata");
-//            while(rs.next())
-//                System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
-//            con.close();
-        }catch(Exception e){ System.out.println(e);}
-
-
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return con;
+
     }
 }
 
