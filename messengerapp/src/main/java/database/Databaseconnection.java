@@ -2,23 +2,29 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Databaseconnection {
-    public Connection databaselink;
+    public static Connection con;
 
     public Connection getConnection() {
-        String databaseName = "MessengerApp";
-        String databaseUser = "root";
-        String databasePassword = "1234";
-        String url = "jdbc:mysql://localhost/" + databaseName;
 
-        try {
+        try{
+
             Class.forName("com.mysql.cj.jdbc.Driver");
-            databaselink = DriverManager.getConnection(url, databaseUser, databasePassword);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            con=DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/messengerapp","root","1234");
 
-        return databaselink;
+//            Statement stmt=con.createStatement();
+//            ResultSet rs=stmt.executeQuery("select * from accountsdata");
+//            while(rs.next())
+//                System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+//            con.close();
+        }catch(Exception e){ System.out.println(e);}
+
+
+        return con;
     }
 }
+
