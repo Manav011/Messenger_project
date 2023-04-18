@@ -1,5 +1,7 @@
 package socketserver;
 
+import GUI.Login_Controller;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -11,36 +13,40 @@ public class MessageSender implements Runnable {
     private final int clientID;
     private final BufferedReader bufferedReader;
     private final PrintWriter printWriter;
-    private final String name;
+    private  String name;
 
-    MessageSender(Socket s) throws IOException {
+    public MessageSender(Socket s) throws IOException {
         socket = s;
         bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream()));
         printWriter = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
-        name = bufferedReader.readLine();
+        this.name = Login_Controller.name;
+        System.out.println("in cost "+name);
         clientHandlers.add(this);
         clientNo++;
         clientID = clientNo;
-        sendToAll(name + " has joined the chat");
+        sendToAll(this.name + ": joined the chat");
     }
 
     @Override
     public void run() {
         String str = "";
+//        name=Login_Controller.getName();
         // reading all the information on the InputStream
         while (socket.isConnected() && !str.equals("q")) {
             try {
                 str = bufferedReader.readLine();
                 if (!str.equals("q")) {
                     // sending the informaion to OutputStream of Clients
+                    System.out.println("in message sended"+name);
                     sendToAll(this.name + ": " + str);
+                    System.out.println("in message sended"+name);
                 }
             } catch (IOException e) {
                 System.out.println();
             }
         }
         try {
-            sendToAll(name + " has left the chat");
+            sendToAll(name + ": left the chat");
             socket.close();
         } catch (IOException e) {
             System.out.println();

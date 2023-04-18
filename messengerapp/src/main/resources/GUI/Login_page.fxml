@@ -1,140 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.*?>
-<AnchorPane fx:id="MainAnchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="648.0" minWidth="700.0" prefHeight="700.0" prefWidth="702.0" styleClass="backgroundColor" stylesheets="@stylesheets/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Login_Controller">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="MainAnchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="648.0" minWidth="700.0" prefHeight="700.0" prefWidth="702.0" styleClass="backgroundColor3" stylesheets="@stylesheets/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Login_Controller">
    <children>
-      <AnchorPane fx:id="SUB1Anchorpane" layoutX="328.0" minHeight="700.0" minWidth="370.0" prefHeight="700.0" prefWidth="370.0" styleClass="backgroundColor2" stylesheets="@stylesheets/style.css" AnchorPane.leftAnchor="331.6" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="SUB1Anchorpane" layoutX="166.0" layoutY="89.0" minHeight="508.0" minWidth="370.0" prefHeight="522.0" prefWidth="370.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="166.0" AnchorPane.rightAnchor="166.0">
          <children>
-            <Label alignment="CENTER" layoutX="91.0" layoutY="91.0" prefHeight="46.0" prefWidth="202.0" text="Sign In" textAlignment="CENTER">
+            <Label alignment="CENTER" layoutX="82.0" layoutY="38.0" prefHeight="46.0" prefWidth="202.0" text="LOGIN" textAlignment="CENTER" textFill="#00ffd5">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="warningLabel" alignment="CENTER" layoutX="37.0" layoutY="95.0" prefHeight="18.0" prefWidth="291.0" AnchorPane.leftAnchor="37.0" AnchorPane.rightAnchor="42.19999999999999">
+               <font>
+                  <Font name="System Italic" size="14.0" />
                </font>
                <textFill>
-                  <LinearGradient endX="1.0" endY="0.7272727299820294" startX="1.0" startY="0.22727269114870016">
+                  <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0" startX="0.5454546122839956" startY="0.5416667100154993">
                      <stops>
                         <Stop>
                            <color>
-                              <Color red="0.0303722582757473" blue="1.0" />
+                              <Color green="0.25" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.5316285329744279">
+                           <color>
+                              <Color red="0.699999988079071" blue="1.0" />
                            </color>
                         </Stop>
                         <Stop offset="1.0">
                            <color>
-                              <Color red="1.0" green="0.07037036865949631" blue="0.07037036865949631" />
+                              <Color red="0.7093908786773682" blue="1.0" />
                            </color>
                         </Stop>
                      </stops>
                   </LinearGradient>
                </textFill>
             </Label>
-            <Label fx:id="warningLabel" alignment="CENTER" layoutX="40.0" layoutY="145.0" prefHeight="18.0" prefWidth="291.0" textFill="RED" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="39.19999999999999">
-               <font>
-                  <Font name="System Italic" size="14.0" />
-               </font>
-            </Label>
-            <TextField fx:id="nameIn" alignment="CENTER" blendMode="DARKEN" layoutX="20.0" layoutY="181.0" prefHeight="26.0" prefWidth="330.0" promptText="Username" style="-fx-background-color: #00EAFF;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="24.0">
+            <TextField fx:id="nameIn" alignment="CENTER" layoutX="20.0" layoutY="132.0" prefHeight="38.0" prefWidth="330.0" promptText="Username" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="19.600000000000023">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
             </TextField>
-            <PasswordField fx:id="passIn" alignment="CENTER" blendMode="DARKEN" layoutX="20.0" layoutY="241.0" onKeyTyped="#keyTypedEvent" prefHeight="26.0" prefWidth="330.0" promptText="Password" style="-fx-background-color: #00EAFF;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="24.0">
+            <PasswordField fx:id="passIn" alignment="CENTER" blendMode="MULTIPLY" layoutX="21.0" layoutY="203.0" onKeyTyped="#keyTypedEvent" prefHeight="38.0" prefWidth="330.0" promptText="Password" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="19.0">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="TEXT" />
                </cursor></PasswordField>
-            <ToggleButton fx:id="showPassButton" layoutX="20.0" layoutY="301.0" mnemonicParsing="false" onMouseClicked="#showPassword" prefHeight="26.0" prefWidth="52.0" style="-fx-background-color: #08FF1C;" text="Show" textFill="#ff0000cd" AnchorPane.leftAnchor="18.399999999999977">
+            <ToggleButton fx:id="showPassButton" layoutX="21.0" layoutY="278.0" mnemonicParsing="false" onMouseClicked="#showPassword" prefHeight="22.0" prefWidth="46.0" style="-fx-background-color: white;" text="Show" AnchorPane.leftAnchor="21.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
                <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></ToggleButton>
-            <Label fx:id="showPass" blendMode="DARKEN" layoutX="198.0" layoutY="301.0" prefHeight="26.0" prefWidth="143.0" textFill="#a5c8e4" AnchorPane.leftAnchor="198.0" AnchorPane.rightAnchor="29.19999999999999">
+                  <Font name="System Bold" size="10.0" />
+               </font>
+               <textFill>
+                  <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0" startX="0.5113636815186703" startY="0.5416667100154993">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.7098039388656616" green="0.5333333611488342" blue="0.9686274528503418" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.006729475100942127">
+                           <color>
+                              <Color red="0.7098039388656616" green="0.5333333611488342" blue="0.9686274528503418" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.006729475100942127">
+                           <color>
+                              <Color red="0.7546783685684204" green="0.4070175290107727" blue="0.9157894849777222" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color green="0.7797545790672302" blue="0.9399999976158142" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill></ToggleButton>
+            <Label fx:id="showPass" layoutX="207.0" layoutY="276.0" prefHeight="26.0" prefWidth="143.0" AnchorPane.leftAnchor="207.0" AnchorPane.rightAnchor="20.19999999999999">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.01666666753590107" blue="1.0" opacity="0.7393617033958435" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" opacity="0.8404255509376526" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
             </Label>
-            <Button fx:id="Login" accessibleText="Login" alignment="CENTER" layoutX="233.0" layoutY="411.0" mnemonicParsing="false" onMouseClicked="#getDetails" prefHeight="37.0" prefWidth="84.0" style="-fx-background-color: #08FF1C;" text="Login" textAlignment="CENTER" textFill="#029925" AnchorPane.rightAnchor="53.39999999999998">
+            <Button fx:id="Login" accessibleText="Login" alignment="CENTER" blendMode="SRC_ATOP" layoutX="254.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#getDetails" prefHeight="36.0" prefWidth="84.0" styleClass="backgroundColor1" text="Login" textAlignment="CENTER" textFill="#02030290" AnchorPane.rightAnchor="32.0">
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
                </cursor>
                <font>
-                  <Font name="System Bold" size="15.0" />
+                  <Font name="System Italic" size="14.0" />
                </font></Button>
-            <Button fx:id="ExitBu" layoutX="324.0" layoutY="1.0" minWidth="44.0" mnemonicParsing="false" onMouseClicked="#ExitApp" prefHeight="26.0" prefWidth="44.0" style="-fx-background-color: #00FF94;" text="X" textFill="#fffbfb" AnchorPane.rightAnchor="2.3999999999999773" AnchorPane.topAnchor="1.0" />
-            <Button fx:id="regButton" layoutX="41.0" layoutY="412.0" mnemonicParsing="false" onMouseClicked="#regPageLoader" prefHeight="36.0" prefWidth="99.0" style="-fx-background-color: #08FF1C;" text="Register now" textFill="#029925">
+            <Button fx:id="regButton" blendMode="SRC_ATOP" layoutX="22.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#regPageLoader" prefHeight="36.0" prefWidth="99.0" styleClass="backgroundColor1" text="Register now" textFill="#0000008a">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font></Button>
+            <Label alignment="CENTER" layoutX="76.0" layoutY="489.0" prefHeight="18.0" prefWidth="211.0" text="Copyright(c). All Rights Reserved." textFill="#030303cc" AnchorPane.leftAnchor="76.0">
                <font>
                   <Font name="System Bold" size="12.0" />
-               </font></Button>
+               </font>
+               <cursor>
+                  <Cursor fx:constant="DISAPPEAR" />
+               </cursor>
+            </Label>
          </children>
       </AnchorPane>
-      <Label alignment="CENTER" layoutX="66.0" layoutY="261.0" prefHeight="18.0" prefWidth="177.0" text="Connect" textFill="#fffcfc" AnchorPane.leftAnchor="66.0">
-         <font>
-            <Font name="System Bold" size="29.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="66.0" layoutY="304.0" prefHeight="18.0" prefWidth="177.0" text="=_=" textFill="#fffcfc" AnchorPane.leftAnchor="66.0">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Label>
-      <Circle fill="#1f93ff00" layoutX="155.0" layoutY="305.0" radius="100.0" strokeType="INSIDE" strokeWidth="2.0" AnchorPane.leftAnchor="55.0">
-         <stroke>
-            <LinearGradient endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.3584265112876892" blue="0.9200000166893005" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </stroke></Circle>
-      <Line endX="54.199981689453125" layoutX="178.0" layoutY="304.0" startX="-100.0" stroke="#6156df" AnchorPane.leftAnchor="77.5" />
-      <Circle layoutX="78.0" layoutY="239.0" radius="22.0" stroke="BLACK" strokeType="INSIDE" AnchorPane.leftAnchor="56.0">
-         <fill>
-            <LinearGradient endX="1.0" endY="0.5909090972307955" startX="0.5075757702191671">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.029400000348687172" green="0.9800000190734863" blue="0.6314466595649719" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="1.0" green="1.0" blue="1.0" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </fill>
+      <Button fx:id="ExitBu" alignment="CENTER" layoutX="656.0" layoutY="-1.0" minWidth="44.0" mnemonicParsing="false" onMouseClicked="#ExitApp" prefHeight="26.0" prefWidth="46.0" styleClass="hover" stylesheets="@stylesheets/style.css" text="X" textFill="#fffbfb" AnchorPane.rightAnchor="-0.39999999999997726" AnchorPane.topAnchor="-1.0">
          <effect>
-            <InnerShadow />
+            <Glow level="0.58">
+               <input>
+                  <Lighting>
+                     <bumpInput>
+                        <Shadow />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant/>
+                     </light>
+                  </Lighting>
+               </input>
+            </Glow>
          </effect>
-      </Circle>
-      <Label alignment="CENTER" layoutX="55.0" layoutY="629.0" prefHeight="18.0" prefWidth="211.0" text="Copyright(c). All Rights Reserved." textFill="#000000b9" AnchorPane.leftAnchor="55.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="DISAPPEAR" />
-         </cursor>
-      </Label>
+      </Button>
    </children>
 </AnchorPane>

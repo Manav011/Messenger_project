@@ -27,9 +27,8 @@ public class Encryptdecrypt {
         c.init(Cipher.ENCRYPT_MODE, key);
         byte[] encrypted_value = c.doFinal(s.getBytes());// encryption done
         Base64.Encoder encoder = Base64.getEncoder();
-        String encrypted_string = encoder.encodeToString(encrypted_value);// coverting to alphanumeric using
-                                                                          // base64encoder
-        return encrypted_string;
+        // base64encoder
+        return encoder.encodeToString(encrypted_value);
     }
 
     public String decrypt(String s) throws Exception {

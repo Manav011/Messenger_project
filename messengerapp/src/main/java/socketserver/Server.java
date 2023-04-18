@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.net.*;
 
 public class Server {
-    /**
-     * @param args
-     * @throws IOException
-     */
+
     public static void main(String[] args) throws IOException {
 
         // Getting the address of the server
@@ -15,7 +12,7 @@ public class Server {
         System.out.println(ia.getHostAddress());
 
         // ServerSocket where Client Socket will connect
-        ServerSocket ss = new ServerSocket(5000);
+        ServerSocket ss = new ServerSocket(1234);
 
         // This thread will be continuously accepting Clients
         ClientAccepter ca = new ClientAccepter(ss);

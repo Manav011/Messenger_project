@@ -1,14 +1,24 @@
 .backgroundColor{
-    -fx-background-color: linear-gradient(to right bottom , #00FF87 , #60EFFF);
+    -fx-background-color: linear-gradient(to bottom right , #363535 , #242424);
+}
+
+.backgroundColor1{
+    -fx-background-color: linear-gradient(to top left , #1ce4e2, #b588f7);
 }
 
 .backgroundColor2{
     -fx-background-color: linear-gradient(to left top , #00FF87, #60EFFF);
+    /* -fx-background-color: linear-gradient(to left top , #00FF87, #60EFFF); */
 }
 
-/* button:hover{
+.backgroundColor3{
+    -fx-background-color: linear-gradient(to bottom right , #1ce4e2, #b588f7);
+    /* -fx-background-color: linear-gradient(to left top , #00FF87, #60EFFF); */
+}
+
+.hover{
     -fx-background-color: red;
-} */
+}
 
 /*
 .backgroundColor{
@@ -39,3 +49,4 @@
     -fx-background-color: linear-gradient(to left top , #40c9ff , #e81cff));
 }
 */
+

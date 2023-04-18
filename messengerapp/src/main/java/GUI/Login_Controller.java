@@ -1,6 +1,7 @@
 package GUI;
 
 import Encryption.Encryptdecrypt;
+import database.Databaseconnection;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,17 +16,16 @@ import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-//import javafx.stage.StageStyle;
+import javafx.stage.StageStyle;
 
-import java.sql.*;
-
-import database.*;
-
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.io.IOException;
-import java.util.Objects;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 public class Login_Controller {
-    String name, pass;
+    public static String name;
 
     @FXML
     private AnchorPane MainAnchorpane;
@@ -57,13 +57,18 @@ public class Login_Controller {
     @FXML
     private ToggleButton showPassButton;
 
+    public static String getName(){
+        return name;
+    }
     public void regPageLoader() {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/GUI/Reg_page.fxml")));
+            Parent root = FXMLLoader.load(getClass().getResource("Reg_page.fxml"));
             Stage primaryr = new Stage();
-            // primaryr.initStyle(StageStyle.UNDECORATED);
+            primaryr.initStyle(StageStyle.UNDECORATED);
             primaryr.setTitle("Connect =_=");
-            primaryr.setScene(new Scene(root, 428, 518));
+            primaryr.setScene(new Scene(root, 410, 525));
+            primaryr.setX(555);
+            primaryr.setY(143);
             primaryr.show();
         } catch (IOException e) {
             System.out.println(e.getCause());
@@ -73,44 +78,50 @@ public class Login_Controller {
     @FXML
     public void getDetails(MouseEvent event) {
 
-        if (nameIn.getText().isEmpty() == false && passIn.getText().isEmpty() == false) {
+        if (nameIn.getText().isBlank() == false && passIn.getText().isBlank() == false) {
             warningLabel.setText("");
 
-            System.out.println(nameIn.getText());
-            System.out.println(passIn.getText());
+            name = nameIn.getText();
+            System.out.println(name);
+//            pass = passIn.getText();
+
+//            System.out.println(name);
+//            System.out.println(pass);
 
             validateLogin();
 
         } else {
-            if (nameIn.getText().isEmpty() == true || passIn.getText().isEmpty() == true)
+            if (nameIn.getText().isBlank() == true || passIn.getText().isBlank() == true)
                 warningLabel.setText("Enter Your Username and Password!!!!");
 
-            // if (passIn.getText().isEmpty() == true)
+            // if (passIn.getText().isBlank() == true)
             // warningLabel.setText("Enter Your Password!!!!");
         }
     }
 
-    @FXML
     public void validateLogin(){
         Databaseconnection conector=new Databaseconnection();
         Connection con = conector.getConnection();
-
-//        String verifyLogin = "SELECT count(1) FROM accountsdata WHERE Username = '" + nameIn.getText()
-//                + "' AND  Password = '" + passIn.getText() + "';";
-
         try {
+
             PreparedStatement verifylogin=con.prepareStatement("SELECT * FROM accountsdata WHERE username = ?");
-            verifylogin.setString(1,nameIn.getText());
+            verifylogin.setString(1,name);
             ResultSet rs=verifylogin.executeQuery();
             if (rs.next()){
                 String encrypted_pass=rs.getString(5);
                 Encryptdecrypt decryptor =new Encryptdecrypt("1234567890123456");
                 String decryptedpass=decryptor.decrypt(encrypted_pass);
                 if(decryptedpass.equals(passIn.getText())){
+
                     warningLabel.setText("Succsesfully loggedin");
+                    Parent root = FXMLLoader.load(getClass().getResource("client.fxml"));
+                    Stage second = new Stage();
+                    second.setTitle("Connect =_=");
+                    second.setScene(new Scene(root, 460, 520));
+                    second.show();
                 }
                 else {
-                    warningLabel.setText("Wrong password");
+                    warningLabel.setText("Wrong password entered!!");
                 }
 
             }
@@ -121,6 +132,7 @@ public class Login_Controller {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     void keyTypedEvent(KeyEvent event) {
