@@ -15,6 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import database.Databaseconnection;
 
+
+
 public class Register_Controller {
     private static int userId = 4;
 
@@ -64,14 +66,31 @@ public class Register_Controller {
 
         if (nameTextField.getText().isEmpty() || usernameTextField.getText().isEmpty()
                 || mobilenoTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            registeredSuccessfullyLabel.setText("Any field should not be empty");
+            registeredSuccessfullyLabel.setText("All fields are required");
             return;
         }
+        if(mobilenoTextField.getText().length()!=10){
+            registeredSuccessfullyLabel.setText("Mobile number should be 10 digit");
+            return;
+        }
+        if(!isNumeric(mobilenoTextField.getText())){
+            registeredSuccessfullyLabel.setText("Mobile number should be numeric only");
+            return;
+        }
+        if(mobilenoTextField.getText().length()!=10){
+            registeredSuccessfullyLabel.setText("Mobile number should be 10 digit");
+            return;
+        }
+        if(passwordField.getText().length()<=4){
+            registeredSuccessfullyLabel.setText("Password should be atleast 5 characters");
+            return;
+        }
+
         try {
             PreparedStatement check_userid_stmt = con.prepareStatement("SELECT * FROM accountsdata WHERE username = ?;");
             PreparedStatement check_mn_stmt = con.prepareStatement("SELECT * FROM accountsdata WHERE mobilenumber = ?;");
 
-            PreparedStatement upstmt = con.prepareStatement("insert into accountsdata values(?,?,?,?,?)");
+            PreparedStatement upstmt = con.prepareStatement("insert into accountsdata (username,name,mobilenumber,pass) values(?,?,?,?)");
 
 //        String register = "INSERT INTO accountsdata VALUES(" + userId++ + ",'" + usernameTextField.getText() + "' , '"
 //                + nameTextField.getText() + "'," + mobilenoTextField.getText() + ",'" + passwordField.getText() + "');";
@@ -84,14 +103,13 @@ public class Register_Controller {
             } else if (rs_ch_mn.next()) {
                 registeredSuccessfullyLabel.setText("Account already exist on this mobile number");
             } else {
-                upstmt.setInt(1, userId);
-                upstmt.setString(2, usernameTextField.getText());
-                upstmt.setString(3, nameTextField.getText());
-                upstmt.setString(4, mobilenoTextField.getText());
+                upstmt.setString(1, usernameTextField.getText());
+                upstmt.setString(2, nameTextField.getText());
+                upstmt.setString(3, mobilenoTextField.getText());
                 Encryptdecrypt encryptor = new Encryptdecrypt("1234567890123456");
                 if (passwordField.getText().equals(confPassField.getText())) {
                     String encrypted_pass = encryptor.encrypt(passwordField.getText());
-                    upstmt.setString(5, encrypted_pass);
+                    upstmt.setString(4, encrypted_pass);
                     upstmt.executeUpdate();
                     registeredSuccessfullyLabel.setText("User registered successfully");
                 } else {
@@ -103,5 +121,14 @@ public class Register_Controller {
             e.printStackTrace();
         }
 
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
