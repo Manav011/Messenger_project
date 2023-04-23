@@ -108,13 +108,13 @@ public class Login_Controller {
             verifylogin.setString(1,name);
             ResultSet rs=verifylogin.executeQuery();
             if (rs.next()){
-                String encrypted_pass=rs.getString(5);
-                Encryptdecrypt decryptor =new Encryptdecrypt("1234567890123456");
-                String decryptedpass=decryptor.decrypt(encrypted_pass);
-                if(decryptedpass.equals(passIn.getText())){
+                String encrypted_pass_fetched_from_db=rs.getString(5);
+                Encryptdecrypt encryptor =new Encryptdecrypt("1234567890123456");
+                String enccrypted_pass=encryptor.encrypt(passIn.getText());
+                if(enccrypted_pass.equals(encrypted_pass_fetched_from_db)){
 
                     warningLabel.setText("Succsesfully loggedin");
-                    Parent root = FXMLLoader.load(getClass().getResource("client.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/GUI/client.fxml"));
                     Stage second = new Stage();
                     second.setTitle("Connect =_=");
                     second.setScene(new Scene(root, 460, 520));

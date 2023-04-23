@@ -1,5 +1,7 @@
 package socketserver;
 
+import GUI.Login_Controller;
+
 import java.io.IOException;
 import java.net.*;
 
@@ -16,6 +18,7 @@ public class ClientAccepter implements Runnable {
             try {
                 Socket socket = serversocket.accept();
                 System.out.println("Client Accepted");
+//                String client_name= Login_Controller.getName();
                 MessageSender ia = new MessageSender(socket);
                 Thread th = new Thread(ia);
                 th.start();

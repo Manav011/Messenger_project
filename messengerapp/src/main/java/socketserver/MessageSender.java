@@ -13,14 +13,14 @@ public class MessageSender implements Runnable {
     private final int clientID;
     private final BufferedReader bufferedReader;
     private final PrintWriter printWriter;
-    private  String name;
+    private final String name;
 
     public MessageSender(Socket s) throws IOException {
         socket = s;
         bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream()));
         printWriter = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
-        this.name = Login_Controller.name;
-        System.out.println("in cost "+name);
+        this.name = Login_Controller.getName();
+        System.out.println("in message sender constructor "+name);
         clientHandlers.add(this);
         clientNo++;
         clientID = clientNo;
