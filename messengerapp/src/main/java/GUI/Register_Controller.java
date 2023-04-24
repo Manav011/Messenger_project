@@ -48,6 +48,9 @@ public class Register_Controller {
     private Label registeredSuccessfullyLabel;
 
     @FXML
+    private Label warningOnRegistration;
+
+    @FXML
     void ExitApp(MouseEvent event) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
@@ -66,23 +69,23 @@ public class Register_Controller {
 
         if (nameTextField.getText().isEmpty() || usernameTextField.getText().isEmpty()
                 || mobilenoTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            registeredSuccessfullyLabel.setText("All fields are required");
+            warningOnRegistration.setText("All fields are required");
             return;
         }
         if(mobilenoTextField.getText().length()!=10){
-            registeredSuccessfullyLabel.setText("Mobile number should be 10 digit");
+            warningOnRegistration.setText("Mobile number should be 10 digit");
             return;
         }
         if(!isNumeric(mobilenoTextField.getText())){
-            registeredSuccessfullyLabel.setText("Mobile number should be numeric only");
+            warningOnRegistration.setText("Mobile number should be numeric only");
             return;
         }
         if(mobilenoTextField.getText().length()!=10){
-            registeredSuccessfullyLabel.setText("Mobile number should be 10 digit");
+            warningOnRegistration.setText("Mobile number should be 10 digit");
             return;
         }
         if(passwordField.getText().length()<=4){
-            registeredSuccessfullyLabel.setText("Password should be atleast 5 characters");
+            warningOnRegistration.setText("Password should be atleast 5 characters");
             return;
         }
 
@@ -99,9 +102,9 @@ public class Register_Controller {
             ResultSet rs_ch_uid = check_userid_stmt.executeQuery();
             ResultSet rs_ch_mn = check_mn_stmt.executeQuery();
             if (rs_ch_uid.next()) {
-                registeredSuccessfullyLabel.setText("This username is already taken");
+                warningOnRegistration.setText("This username is already taken");
             } else if (rs_ch_mn.next()) {
-                registeredSuccessfullyLabel.setText("Account already exist on this mobile number");
+                warningOnRegistration.setText("Account already exist on this mobile number");
             } else {
                 upstmt.setString(1, usernameTextField.getText());
                 upstmt.setString(2, nameTextField.getText());

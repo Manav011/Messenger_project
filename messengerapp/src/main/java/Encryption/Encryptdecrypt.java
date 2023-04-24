@@ -3,12 +3,14 @@ package Encryption;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
+import java.util.Base64.*;
 
 import java.security.Key;
-import java.util.Base64.Decoder;
+//import java.util.Base64.Decoder;
+//import java.util.Base64.Encoder;
 
 public class Encryptdecrypt {
-    private byte[] key_value;
+    private final byte[] key_value;
 
     public Encryptdecrypt(String key) {// Expected key is 16 Characters
         key_value = key.getBytes();// converting userDecide key into Byte array
@@ -16,8 +18,7 @@ public class Encryptdecrypt {
 
     private Key genKey() {// generating key using SecretKeySpec provided by java crypto and choosing AES
                           // as a encryption technology
-        Key key = new SecretKeySpec(key_value, "AES");
-        return key;
+        return new SecretKeySpec(key_value, "AES");
 
     }
 
@@ -36,10 +37,10 @@ public class Encryptdecrypt {
         Cipher c = Cipher.getInstance("AES");
         c.init(Cipher.DECRYPT_MODE, key);
         Decoder decoder = Base64.getDecoder();
-        byte[] decoded_value = decoder.decode(s);// decoding back to format which AES undrstands
+        // decoding back to format which AES undrstands
+        byte[] decoded_value = decoder.decode(s);
         byte[] deccrypted_value = c.doFinal(decoded_value);// Decrypting using AES
-        String deccrypted_string = new String(deccrypted_value);
-        return deccrypted_string;
+        return new String(deccrypted_value);
     }
 
 }

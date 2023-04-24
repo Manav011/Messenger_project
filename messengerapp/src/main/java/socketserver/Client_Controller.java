@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import Encryption.Encryptdecrypt;
 import GUI.Login_Controller;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -54,6 +55,9 @@ public class Client_Controller implements Initializable {// implementing initial
 
     private Client client;
 
+    static Encryptdecrypt encdec =new Encryptdecrypt("1234567890123456");
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Scanner sc = new Scanner(System.in);
@@ -78,7 +82,14 @@ public class Client_Controller implements Initializable {// implementing initial
         button_send.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String messageTosend = tf_message.getText();
+
+                String messageTosend = null;
+                try {
+//                    messageTosend =encdec.encrypt(tf_message.getText());
+                    messageTosend=tf_message.getText();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 if (!messageTosend.isEmpty()) {
                     HBox hBox = new HBox();
                     hBox.setAlignment(Pos.CENTER_RIGHT);
@@ -106,17 +117,28 @@ public class Client_Controller implements Initializable {// implementing initial
 
     }
 
-    public static void addLabel(String messageFromClient, VBox vBox) {
+    public static void addLabel(String messageFromClient, VBox vBox) throws RuntimeException {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setPadding(new Insets(5, 5, 5, 10));
 
         VBox wholemsg = new VBox();
-        String[] msgarr = messageFromClient.split(":");
+        System.out.println("messageFromClient    "+messageFromClient);
+        String[] msgarr = messageFromClient.split(": ");
         // System.out.println(messageFromClient);
         Label name = new Label(msgarr[0]);
         wholemsg.getChildren().add(name);
-        Text text = new Text(msgarr[1]);
+        String message=msgarr[1];
+
+        Text text = null;
+        try {
+
+//            System.out.println("this is decrypted msg "+decryptedd_msg);
+            text = new Text(msgarr[1]);
+//            System.out.println("this is sstring to be passed   "+msgarr[1]);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         TextFlow textFlow = new TextFlow(text);
         wholemsg.getChildren().add(textFlow);
 

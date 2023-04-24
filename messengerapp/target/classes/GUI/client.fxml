@@ -15,10 +15,9 @@
     <children>
         <Button fx:id="button_send" layoutX="387.0" layoutY="459.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="43.0" />
         <TextField fx:id="tf_message" layoutX="29.0" layoutY="459.0" prefHeight="34.0" prefWidth="354.0" />
-        <ScrollPane fx:id="sp_main" fitToWidth="true" layoutX="25.0" layoutY="34.0" prefHeight="412.0" prefWidth="405.0">
-            <content>
-                <VBox fx:id="vbox_message" prefHeight="410.0" prefWidth="404.0" />
-            </content>
+        <ScrollPane fx:id="sp_main" fitToWidth="true" layoutX="25.0" layoutY="34.0" prefHeight="412.0"
+                    prefWidth="405.0">
+            <VBox fx:id="vbox_message" prefHeight="410.0" prefWidth="404.0"/>
         </ScrollPane>
         <Label fx:id="name_label" contentDisplay="CENTER" layoutX="206.0" layoutY="5.0" prefHeight="27.0" prefWidth="80.0" text="Client">
             <textFill>

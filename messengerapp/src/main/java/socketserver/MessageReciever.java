@@ -2,7 +2,11 @@ package socketserver;
 
 import java.io.*;
 import java.net.Socket;
+
+import Encryption.Encryptdecrypt;
 import javafx.scene.layout.VBox;
+
+import static socketserver.Client_Controller.addLabel;
 
 public class MessageReciever {
     Socket s;
@@ -27,13 +31,17 @@ public class MessageReciever {
                             br = new BufferedReader(new InputStreamReader(s.getInputStream()));
                             a = br.readLine();
                             if (!a.equals("null")) {
-                                System.out.println(a);
-                                Client_Controller.addLabel(a, vBox);
+                                Encryptdecrypt encdec =new Encryptdecrypt("1234567890123456");
+//                                String decryptedd_msg=encdec.decrypt(a);
+//                                System.out.println(decryptedd_msg);
+                                addLabel(a, vBox);
                             }
 
                             // handling exception thrown by getInputStream if socket not found
                         } catch (IOException e) {
                             System.out.println();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
                     }
                 } catch (NullPointerException e) {
