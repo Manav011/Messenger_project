@@ -13,33 +13,29 @@ public class MessageSender implements Runnable {
     private final int clientID;
     private final BufferedReader bufferedReader;
     private final PrintWriter printWriter;
-    private final String name;
+    public final String name;
 
     public MessageSender(Socket s) throws IOException {
         socket = s;
         bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream()));
         printWriter = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
-        this.name = Login_Controller.getName();
-        System.out.println("in message sender constructor "+name);
+        name = Login_Controller.name;
         clientHandlers.add(this);
         clientNo++;
         clientID = clientNo;
-        sendToAll(this.name + ": joined the chat");
+        sendToAll(name + ": joined the chat");
     }
 
     @Override
     public void run() {
         String str = "";
-//        name=Login_Controller.getName();
         // reading all the information on the InputStream
-        while (socket.isConnected() && !str.equals("q")) {
+        while (socket.isConnected() && !str.equals("q1u2i3t4")) {
             try {
                 str = bufferedReader.readLine();
-                if (!str.equals("q")) {
+                if (!str.equals("q1u2i3t4")) {
                     // sending the informaion to OutputStream of Clients
-                    System.out.println("in message sended"+name);
-                    sendToAll(this.name + ": " + str);
-                    System.out.println("in message sended"+name);
+                    sendToAll(name + ": " + str);
                 }
             } catch (IOException e) {
                 System.out.println();

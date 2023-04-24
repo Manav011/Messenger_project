@@ -1,13 +1,9 @@
 package socketserver;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
-import Encryption.Encryptdecrypt;
 import GUI.Login_Controller;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -22,12 +18,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Client_Controller implements Initializable {// implementing initializable so that we can work with all the
     // injected fxml variables
@@ -53,14 +52,24 @@ public class Client_Controller implements Initializable {// implementing initial
     @FXML
     private VBox users_vBox;
 
+    @FXML
+    private Button logout_button;
+
+    @FXML
+    private Stage stage;
+
     private Client client;
 
-    static Encryptdecrypt encdec =new Encryptdecrypt("1234567890123456");
-
+    @FXML
+    public void logout(ActionEvent event) {
+        stage = (Stage) ap_main.getScene().getWindow();
+        client.sendMessageToServer("q1u2i3t4");
+        stage.close();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Scanner sc = new Scanner(System.in);
+        // Scanner sc = new Scanner(System.in);
         try {
             // System.out.println("Enter thr ip of Server: ");
             client = new Client(new Socket("192.168.92.1", 1234));
@@ -77,19 +86,23 @@ public class Client_Controller implements Initializable {// implementing initial
             }
         });
 
+        ImageView log = new ImageView(
+                "/GUI/stylesheets/logout.png");
+        log.setFitHeight(20);
+        log.setFitWidth(20);
+        logout_button.setGraphic(log);
+
         client.receiveMessage(vbox_message);
 
+        ImageView send = new ImageView(
+                "/GUI/stylesheets/send.png");
+        send.setFitHeight(22.0);
+        send.setFitWidth(28.0);
+        button_send.setGraphic(send);
         button_send.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                String messageTosend = null;
-                try {
-//                    messageTosend =encdec.encrypt(tf_message.getText());
-                    messageTosend=tf_message.getText();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                String messageTosend = tf_message.getText();
                 if (!messageTosend.isEmpty()) {
                     HBox hBox = new HBox();
                     hBox.setAlignment(Pos.CENTER_RIGHT);
@@ -117,35 +130,32 @@ public class Client_Controller implements Initializable {// implementing initial
 
     }
 
-    public static void addLabel(String messageFromClient, VBox vBox) throws RuntimeException {
+    public static void addLabel(String messageFromClient, VBox vBox) {
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setPadding(new Insets(5, 5, 5, 10));
 
         VBox wholemsg = new VBox();
-        System.out.println("messageFromClient    "+messageFromClient);
-        String[] msgarr = messageFromClient.split(": ");
-        // System.out.println(messageFromClient);
-        Label name = new Label(msgarr[0]);
-        wholemsg.getChildren().add(name);
-        String message=msgarr[1];
 
-        Text text = null;
-        try {
+        if (messageFromClient.endsWith("left the chat") || messageFromClient.endsWith("joined the chat")) {
+            messageFromClient = messageFromClient.replace(":", "");
+            Label left = new Label(messageFromClient);
+            TextFlow text = new TextFlow(left);
+            text.setPadding(new Insets(10, 10, 10, 150));
+            wholemsg.getChildren().add(text);
+        } else {
+            String[] msgarr = messageFromClient.split(":");
+            Label name = new Label(msgarr[0]);
+            wholemsg.getChildren().add(name);
+            Text text = new Text(msgarr[1]);
+            TextFlow textFlow = new TextFlow(text);
+            wholemsg.getChildren().add(textFlow);
 
-//            System.out.println("this is decrypted msg "+decryptedd_msg);
-            text = new Text(msgarr[1]);
-//            System.out.println("this is sstring to be passed   "+msgarr[1]);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            textFlow.setStyle("-fx-background-color: rgb(233,233,235);" +
+                    "-fx-background-radius: 20px;");
+
+            textFlow.setPadding(new Insets(5, 10, 5, 10));
         }
-        TextFlow textFlow = new TextFlow(text);
-        wholemsg.getChildren().add(textFlow);
-
-        textFlow.setStyle("-fx-background-color: rgb(233,233,235);" +
-                "-fx-background-radius: 20px;");
-
-        textFlow.setPadding(new Insets(5, 10, 5, 10));
 
         hBox.getChildren().add(wholemsg);
 
@@ -155,9 +165,5 @@ public class Client_Controller implements Initializable {// implementing initial
                 vBox.getChildren().add(hBox);
             }
         });
-    }
-
-    public static void addMembers() {
-
     }
 }

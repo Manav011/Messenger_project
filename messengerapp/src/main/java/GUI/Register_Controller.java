@@ -3,7 +3,7 @@ package GUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.text.BreakIterator;
 
 import Encryption.Encryptdecrypt;
 import javafx.fxml.FXML;
@@ -15,11 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import database.Databaseconnection;
 
-
-
 public class Register_Controller {
-    private static int userId = 4;
-
     @FXML
     private Button closeButton;
 
@@ -60,9 +56,6 @@ public class Register_Controller {
     public void registerButtonAction(MouseEvent event) {
         confirmPassLabel.setText("");
         registeredSuccessfullyLabel.setText("");
-//        registeredSuccessfullyLabel.setText("Account already exist on this mobile number");
-//        reglabel1.setText("hello");
-//        reglabel2.setText("hello hi");
         Databaseconnection conector = new Databaseconnection();
         Connection con = conector.getConnection();
 
@@ -90,21 +83,26 @@ public class Register_Controller {
         }
 
         try {
-            PreparedStatement check_userid_stmt = con.prepareStatement("SELECT * FROM accountsdata WHERE username = ?;");
-            PreparedStatement check_mn_stmt = con.prepareStatement("SELECT * FROM accountsdata WHERE mobilenumber = ?;");
+            PreparedStatement check_userid_stmt = con
+                    .prepareStatement("SELECT * FROM accountsdata WHERE username = ?;");
+            PreparedStatement check_mn_stmt = con
+                    .prepareStatement("SELECT * FROM accountsdata WHERE mobilenumber = ?;");
 
-            PreparedStatement upstmt = con.prepareStatement("insert into accountsdata (username,name,mobilenumber,pass) values(?,?,?,?)");
+            PreparedStatement upstmt = con
+                    .prepareStatement("insert into accountsdata (username,name,mobilenumber,pass) values(?,?,?,?)");
 
-//        String register = "INSERT INTO accountsdata VALUES(" + userId++ + ",'" + usernameTextField.getText() + "' , '"
-//                + nameTextField.getText() + "'," + mobilenoTextField.getText() + ",'" + passwordField.getText() + "');";
+            // String register = "INSERT INTO accountsdata VALUES(" + userId++ + ",'" +
+            // usernameTextField.getText() + "' , '"
+            // + nameTextField.getText() + "'," + mobilenoTextField.getText() + ",'" +
+            // passwordField.getText() + "');";
             check_userid_stmt.setString(1, usernameTextField.getText());
             check_mn_stmt.setString(1, mobilenoTextField.getText());
             ResultSet rs_ch_uid = check_userid_stmt.executeQuery();
             ResultSet rs_ch_mn = check_mn_stmt.executeQuery();
             if (rs_ch_uid.next()) {
-                warningOnRegistration.setText("This username is already taken");
+                registeredSuccessfullyLabel.setText("This username is already taken");
             } else if (rs_ch_mn.next()) {
-                warningOnRegistration.setText("Account already exist on this mobile number");
+                registeredSuccessfullyLabel.setText("Account already exist on this mobile number");
             } else {
                 upstmt.setString(1, usernameTextField.getText());
                 upstmt.setString(2, nameTextField.getText());
@@ -114,6 +112,7 @@ public class Register_Controller {
                     String encrypted_pass = encryptor.encrypt(passwordField.getText());
                     upstmt.setString(4, encrypted_pass);
                     upstmt.executeUpdate();
+                    warningOnRegistration.setText("");
                     registeredSuccessfullyLabel.setText("User registered successfully");
                 } else {
                     confirmPassLabel.setText("Password is not matching!!");
@@ -128,7 +127,7 @@ public class Register_Controller {
 
     public static boolean isNumeric(String str) {
         try {
-            Integer.parseInt(str);
+            Double.parseDouble(str);
             return true;
         } catch (NumberFormatException e) {
             return false;

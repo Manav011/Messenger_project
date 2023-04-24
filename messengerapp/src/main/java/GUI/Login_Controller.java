@@ -17,12 +17,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.StageStyle;
+import socketserver.Client_Controller;
 
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Objects;
 
 public class Login_Controller {
     public static String name;
@@ -57,9 +58,6 @@ public class Login_Controller {
     @FXML
     private ToggleButton showPassButton;
 
-    public static String getName(){
-        return name;
-    }
     public void regPageLoader() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("Reg_page.fxml"));
@@ -81,12 +79,12 @@ public class Login_Controller {
         if (nameIn.getText().isBlank() == false && passIn.getText().isBlank() == false) {
             warningLabel.setText("");
 
-            name = nameIn.getText();
-            System.out.println(name);
-//            pass = passIn.getText();
+            Login_Controller.name = nameIn.getText();
+            System.out.println(Login_Controller.name);
+            // pass = passIn.getText();
 
-//            System.out.println(name);
-//            System.out.println(pass);
+            // System.out.println(name);
+            // System.out.println(pass);
 
             validateLogin();
 
@@ -99,40 +97,40 @@ public class Login_Controller {
         }
     }
 
-    public void validateLogin(){
-        Databaseconnection conector=new Databaseconnection();
+    public void validateLogin() {
+        Databaseconnection conector = new Databaseconnection();
         Connection con = conector.getConnection();
         try {
 
-            PreparedStatement verifylogin=con.prepareStatement("SELECT * FROM accountsdata WHERE username = ?");
-            verifylogin.setString(1,name);
-            ResultSet rs=verifylogin.executeQuery();
-            if (rs.next()){
-                String encrypted_pass_fetched_from_db=rs.getString(5);
-                Encryptdecrypt encryptor =new Encryptdecrypt("1234567890123456");
-                String enccrypted_pass=encryptor.encrypt(passIn.getText());
-                if(enccrypted_pass.equals(encrypted_pass_fetched_from_db)){
+            PreparedStatement verifylogin = con.prepareStatement("SELECT * FROM accountsdata WHERE username = ?");
+            verifylogin.setString(1, name);
+            ResultSet rs = verifylogin.executeQuery();
+            if (rs.next()) {
+                String encrypted_pass = rs.getString(5);
+                Encryptdecrypt decryptor = new Encryptdecrypt("1234567890123456");
+                String decryptedpass = decryptor.decrypt(encrypted_pass);
+                if (decryptedpass.equals(passIn.getText())) {
 
-                    warningLabel.setText("Succsesfully loggedin");
-                    Parent root = FXMLLoader.load(getClass().getResource("/GUI/client.fxml"));
+                    warningLabel.setText("Succsesfully logged in");
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/GUI/client.fxml")));
                     Stage second = new Stage();
                     second.setTitle("Connect =_=");
+                    second.setResizable(false);
                     second.setScene(new Scene(root, 460, 520));
                     second.show();
-                }
-                else {
+                    // second.setOnCloseRequest(e -> new Client_Controller().logout(e));
+
+                } else {
                     warningLabel.setText("Wrong password entered!!");
                 }
 
-            }
-            else{
+            } else {
                 warningLabel.setText("User with this Username doesn't exist");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     void keyTypedEvent(KeyEvent event) {

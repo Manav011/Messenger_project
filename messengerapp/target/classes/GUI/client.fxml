@@ -13,12 +13,6 @@
 
 <AnchorPane fx:id="ap_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="456.0" style="-fx-background-color: #242424;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="socketserver.Client_Controller">
     <children>
-        <Button fx:id="button_send" layoutX="387.0" layoutY="459.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="43.0" />
-        <TextField fx:id="tf_message" layoutX="29.0" layoutY="459.0" prefHeight="34.0" prefWidth="354.0" />
-        <ScrollPane fx:id="sp_main" fitToWidth="true" layoutX="25.0" layoutY="34.0" prefHeight="412.0"
-                    prefWidth="405.0">
-            <VBox fx:id="vbox_message" prefHeight="410.0" prefWidth="404.0"/>
-        </ScrollPane>
         <Label fx:id="name_label" contentDisplay="CENTER" layoutX="206.0" layoutY="5.0" prefHeight="27.0" prefWidth="80.0" text="Client">
             <textFill>
                 <LinearGradient endX="1.0" endY="1.0" startX="0.04924240979281336">
@@ -39,5 +33,13 @@
             <font>
                 <Font name="System Bold Italic" size="18.0" />
             </font></Label>
+        <ScrollPane fx:id="sp_main" fitToWidth="true" layoutX="25.0" layoutY="34.0" prefHeight="412.0" prefWidth="405.0">
+            <content>
+                <VBox fx:id="vbox_message" prefHeight="410.0" prefWidth="404.0" />
+            </content>
+        </ScrollPane>
+        <TextField fx:id="tf_message" layoutX="29.0" layoutY="459.0" prefHeight="34.0" prefWidth="354.0" />
+        <Button fx:id="button_send" layoutX="387.0" layoutY="459.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="43.0" />
+      <Button fx:id="logout_button" layoutX="403.0" layoutY="5.0" mnemonicParsing="false" onAction="#logout" prefHeight="26.0" prefWidth="28.0" style="-fx-background-color: #242424;" />
     </children>
 </AnchorPane>

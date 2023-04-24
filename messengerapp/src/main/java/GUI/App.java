@@ -18,7 +18,7 @@ public class App extends Application {
     public void start(Stage primary) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/GUI/Login_page.fxml")));
 
-         primary.initStyle(StageStyle.UNDECORATED);
+        primary.initStyle(StageStyle.UNDECORATED);
         primary.setTitle("Connect =_=");
         primary.setScene(new Scene(root, 700, 700));
 

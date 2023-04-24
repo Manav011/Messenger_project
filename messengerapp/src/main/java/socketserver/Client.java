@@ -2,12 +2,6 @@ package socketserver;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
-
-
-import java.io.*;
-import java.net.Socket;
-import java.util.Scanner;
 
 import javafx.scene.layout.VBox;
 
