@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Encryption.Encryptdecrypt;
 import GUI.Login_Controller;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -60,6 +61,8 @@ public class Client_Controller implements Initializable {// implementing initial
 
     private Client client;
 
+    private static final Encryptdecrypt encryptor = new Encryptdecrypt("1234567890123456");
+
     @FXML
     public void logout(ActionEvent event) {
         stage = (Stage) ap_main.getScene().getWindow();
@@ -72,7 +75,7 @@ public class Client_Controller implements Initializable {// implementing initial
         // Scanner sc = new Scanner(System.in);
         try {
             // System.out.println("Enter thr ip of Server: ");
-            client = new Client(new Socket("172.28.49.203", 1234));
+            client = new Client(new Socket("192.168.92.1", 1234));
             name_label.setText(Login_Controller.name);
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,14 +89,16 @@ public class Client_Controller implements Initializable {// implementing initial
             }
         });
 
-        ImageView log = new ImageView("/GUI/stylesheets/logout.png");
+        ImageView log = new ImageView(
+                "/GUI/stylesheets/logout.png");
         log.setFitHeight(20);
         log.setFitWidth(20);
         logout_button.setGraphic(log);
 
         client.receiveMessage(vbox_message);
 
-        ImageView send = new ImageView("/GUI/stylesheets/send.png");
+        ImageView send = new ImageView(
+                "/GUI/stylesheets/send.png");
         send.setFitHeight(22.0);
         send.setFitWidth(28.0);
         button_send.setGraphic(send);
@@ -101,6 +106,7 @@ public class Client_Controller implements Initializable {// implementing initial
             @Override
             public void handle(ActionEvent event) {
                 String messageTosend = tf_message.getText();
+
                 if (!messageTosend.isEmpty()) {
                     HBox hBox = new HBox();
                     hBox.setAlignment(Pos.CENTER_RIGHT);
@@ -120,7 +126,11 @@ public class Client_Controller implements Initializable {// implementing initial
                     vbox_message.getChildren().add(hBox);
 
                     // Messagesent
-                    client.sendMessageToServer(messageTosend);
+                    try {
+                        client.sendMessageToServer(encryptor.encrypt(messageTosend));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     tf_message.clear();
                 }
             }
@@ -142,10 +152,18 @@ public class Client_Controller implements Initializable {// implementing initial
             text.setPadding(new Insets(10, 10, 10, 150));
             wholemsg.getChildren().add(text);
         } else {
-            String[] msgarr = messageFromClient.split(":");
+            String[] msgarr = messageFromClient.split(": ");
+
             Label name = new Label(msgarr[0]);
             wholemsg.getChildren().add(name);
-            Text text = new Text(msgarr[1]);
+
+            Text text = null;
+            try {
+                text = new Text(encryptor.decrypt(msgarr[1]));
+            } catch (Exception e) {
+                System.out.println("Unable to decrypt");
+            }
+
             TextFlow textFlow = new TextFlow(text);
             wholemsg.getChildren().add(textFlow);
 

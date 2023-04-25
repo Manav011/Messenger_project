@@ -3,6 +3,7 @@ package GUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.BreakIterator;
 
 import Encryption.Encryptdecrypt;
 import javafx.fxml.FXML;
@@ -43,6 +44,9 @@ public class Register_Controller {
     private Label registeredSuccessfullyLabel;
 
     @FXML
+    private Label warningOnRegistration;
+
+    @FXML
     void ExitApp(MouseEvent event) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
@@ -55,25 +59,26 @@ public class Register_Controller {
         Databaseconnection conector = new Databaseconnection();
         Connection con = conector.getConnection();
 
+
         if (nameTextField.getText().isEmpty() || usernameTextField.getText().isEmpty()
                 || mobilenoTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            registeredSuccessfullyLabel.setText("All fields are required");
+            warningOnRegistration.setText("All fields are required");
             return;
         }
-        if (mobilenoTextField.getText().length() != 10) {
-            registeredSuccessfullyLabel.setText("Mobile number should be 10 digit");
+        if(mobilenoTextField.getText().length()!=10){
+            warningOnRegistration.setText("Mobile number should be 10 digit");
             return;
         }
-        if (!isNumeric(mobilenoTextField.getText())) {
-            registeredSuccessfullyLabel.setText("Mobile number should be numeric only");
+        if(!isNumeric(mobilenoTextField.getText())){
+            warningOnRegistration.setText("Mobile number should be numeric only");
             return;
         }
-        if (mobilenoTextField.getText().length() != 10) {
-            registeredSuccessfullyLabel.setText("Mobile number should be 10 digit");
+        if(mobilenoTextField.getText().length()!=10){
+            warningOnRegistration.setText("Mobile number should be 10 digit");
             return;
         }
-        if (passwordField.getText().length() <= 4) {
-            registeredSuccessfullyLabel.setText("Password should be atleast 5 characters");
+        if(passwordField.getText().length()<=4){
+            warningOnRegistration.setText("Password should be atleast 5 characters");
             return;
         }
 
@@ -107,6 +112,7 @@ public class Register_Controller {
                     String encrypted_pass = encryptor.encrypt(passwordField.getText());
                     upstmt.setString(4, encrypted_pass);
                     upstmt.executeUpdate();
+                    warningOnRegistration.setText("");
                     registeredSuccessfullyLabel.setText("User registered successfully");
                 } else {
                     confirmPassLabel.setText("Password is not matching!!");
@@ -121,7 +127,7 @@ public class Register_Controller {
 
     public static boolean isNumeric(String str) {
         try {
-            Integer.parseInt(str);
+            Double.parseDouble(str);
             return true;
         } catch (NumberFormatException e) {
             return false;

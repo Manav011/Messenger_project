@@ -11,12 +11,13 @@ public class MessageSender implements Runnable {
     private final int clientID;
     private final BufferedReader bufferedReader;
     private final PrintWriter printWriter;
-    public static String name;
+    public final String name;
 
     public MessageSender(Socket s) throws IOException {
         socket = s;
         bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream()));
         printWriter = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
+        name = Login_Controller.name;
         clientHandlers.add(this);
         clientNo++;
         clientID = clientNo;

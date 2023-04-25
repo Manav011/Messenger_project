@@ -18,12 +18,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.StageStyle;
 import socketserver.Client_Controller;
-import socketserver.MessageSender;
 
 import java.sql.PreparedStatement;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Objects;
 
 public class Login_Controller {
     public static String name;
@@ -80,7 +80,6 @@ public class Login_Controller {
             warningLabel.setText("");
 
             Login_Controller.name = nameIn.getText();
-            MessageSender.name = nameIn.getText();
             System.out.println(Login_Controller.name);
             // pass = passIn.getText();
 
@@ -113,7 +112,7 @@ public class Login_Controller {
                 if (decryptedpass.equals(passIn.getText())) {
 
                     warningLabel.setText("Succsesfully logged in");
-                    Parent root = FXMLLoader.load(getClass().getResource("client.fxml"));
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/GUI/client.fxml")));
                     Stage second = new Stage();
                     second.setTitle("Connect =_=");
                     second.setResizable(false);
