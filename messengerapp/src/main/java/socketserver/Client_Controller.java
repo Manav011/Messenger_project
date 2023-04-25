@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Encryption.Encryptdecrypt;
 import GUI.Login_Controller;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -60,6 +61,8 @@ public class Client_Controller implements Initializable {// implementing initial
 
     private Client client;
 
+    private static final Encryptdecrypt encryptor = new Encryptdecrypt("1234567890123456");
+
     @FXML
     public void logout(ActionEvent event) {
         stage = (Stage) ap_main.getScene().getWindow();
@@ -103,6 +106,11 @@ public class Client_Controller implements Initializable {// implementing initial
             @Override
             public void handle(ActionEvent event) {
                 String messageTosend = tf_message.getText();
+                try {
+                    messageTosend=encryptor.encrypt(messageTosend);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 if (!messageTosend.isEmpty()) {
                     HBox hBox = new HBox();
                     hBox.setAlignment(Pos.CENTER_RIGHT);
@@ -145,6 +153,11 @@ public class Client_Controller implements Initializable {// implementing initial
             wholemsg.getChildren().add(text);
         } else {
             String[] msgarr = messageFromClient.split(":");
+//            try {
+//                msgarr[1]=encryptor.decrypt(msgarr[1]);
+//            } catch (Exception e) {
+//                throw new RuntimeException(e);
+//            }
             Label name = new Label(msgarr[0]);
             wholemsg.getChildren().add(name);
             Text text = new Text(msgarr[1]);
