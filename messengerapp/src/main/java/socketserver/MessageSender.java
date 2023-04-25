@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import GUI.Login_Controller;
+
 public class MessageSender implements Runnable {
     private final static ArrayList<MessageSender> clientHandlers = new ArrayList<>();
     private static int clientNo;
@@ -11,17 +13,15 @@ public class MessageSender implements Runnable {
     private final int clientID;
     private final BufferedReader bufferedReader;
     private final PrintWriter printWriter;
-    public final String name;
 
     public MessageSender(Socket s) throws IOException {
         socket = s;
         bufferedReader = new BufferedReader(new InputStreamReader(s.getInputStream()));
         printWriter = new PrintWriter(new OutputStreamWriter(s.getOutputStream()));
-        name = Login_Controller.name;
         clientHandlers.add(this);
         clientNo++;
         clientID = clientNo;
-        sendToAll(name + ": joined the chat");
+        // sendToAll(name + ": joined the chat");
     }
 
     @Override
@@ -33,14 +33,14 @@ public class MessageSender implements Runnable {
                 str = bufferedReader.readLine();
                 if (!str.equals("q1u2i3t4")) {
                     // sending the informaion to OutputStream of Clients
-                    sendToAll(name + ": " + str);
+                    sendToAll(str);
                 }
             } catch (IOException e) {
                 System.out.println();
             }
         }
         try {
-            sendToAll(name + ": left the chat");
+            // sendToAll(name + ": left the chat");
             socket.close();
         } catch (IOException e) {
             System.out.println();

@@ -31,6 +31,7 @@ import javafx.stage.WindowEvent;
 
 public class Client_Controller implements Initializable {// implementing initializable so that we can work with all the
     // injected fxml variables
+    private String name;
 
     @FXML
     private AnchorPane ap_main;
@@ -66,6 +67,12 @@ public class Client_Controller implements Initializable {// implementing initial
     @FXML
     public void logout(ActionEvent event) {
         stage = (Stage) ap_main.getScene().getWindow();
+        try {
+            client.sendMessageToServer(encryptor.encrypt(name + ": left the chat"));
+        } catch (Exception e) {
+            System.out.println("not sending the left the chat");
+            e.printStackTrace();
+        }
         client.sendMessageToServer("q1u2i3t4");
         stage.close();
     }
@@ -75,8 +82,15 @@ public class Client_Controller implements Initializable {// implementing initial
         // Scanner sc = new Scanner(System.in);
         try {
             // System.out.println("Enter thr ip of Server: ");
-            client = new Client(new Socket("192.168.92.1", 1234));
+            client = new Client(new Socket("172.21.58.249", 1234));
             name_label.setText(Login_Controller.name);
+            name = Login_Controller.name;
+            try {
+                client.sendMessageToServer(encryptor.encrypt(name + ": joined the chat"));
+            } catch (Exception e) {
+                System.out.println("not sending the left the chat");
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error Creating Client");
@@ -126,10 +140,17 @@ public class Client_Controller implements Initializable {// implementing initial
                     vbox_message.getChildren().add(hBox);
 
                     // Messagesent
+                    // try {
+                    // client.sendMessageToServer(encryptor.encrypt(messageTosend));
+                    // } catch (Exception e) {
+                    // throw new RuntimeException(e);
+                    // }
+
                     try {
-                        client.sendMessageToServer(encryptor.encrypt(messageTosend));
+                        client.sendMessageToServer(encryptor.encrypt(name + ": " + messageTosend));
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        System.out.println("now sending the message from client " + name);
+                        e.printStackTrace();
                     }
                     tf_message.clear();
                 }
@@ -145,11 +166,18 @@ public class Client_Controller implements Initializable {// implementing initial
 
         VBox wholemsg = new VBox();
 
+        try {
+            messageFromClient = encryptor.decrypt(messageFromClient);
+        } catch (Exception e) {
+            System.out.println("receving part is not working for client");
+            e.printStackTrace();
+        }
+
         if (messageFromClient.endsWith("left the chat") || messageFromClient.endsWith("joined the chat")) {
             messageFromClient = messageFromClient.replace(":", "");
             Label left = new Label(messageFromClient);
             TextFlow text = new TextFlow(left);
-            text.setPadding(new Insets(10, 10, 10, 150));
+            text.setPadding(new Insets(10, 10, 3, 150));
             wholemsg.getChildren().add(text);
         } else {
             String[] msgarr = messageFromClient.split(": ");
@@ -157,12 +185,7 @@ public class Client_Controller implements Initializable {// implementing initial
             Label name = new Label(msgarr[0]);
             wholemsg.getChildren().add(name);
 
-            Text text = null;
-            try {
-                text = new Text(encryptor.decrypt(msgarr[1]));
-            } catch (Exception e) {
-                System.out.println("Unable to decrypt");
-            }
+            Text text = new Text(msgarr[1]);
 
             TextFlow textFlow = new TextFlow(text);
             wholemsg.getChildren().add(textFlow);
