@@ -1,5 +1,8 @@
 package Encryption;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class testing {
     public static void main(String[] args) throws Exception {
         Encryptdecrypt encdec =new Encryptdecrypt("1234567890123456");
