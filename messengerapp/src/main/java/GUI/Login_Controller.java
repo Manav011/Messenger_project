@@ -17,7 +17,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.StageStyle;
-import socketserver.Client_Controller;
 
 import java.sql.PreparedStatement;
 import java.io.IOException;
@@ -114,7 +113,6 @@ public class Login_Controller {
                     second.setResizable(false);
                     second.setScene(new Scene(root, 460, 520));
                     second.show();
-                    // second.setOnCloseRequest(e -> new Client_Controller().loggout(e));
 
                 } else {
                     warningLabel.setText("Wrong password entered!!");

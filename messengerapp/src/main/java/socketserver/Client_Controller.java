@@ -29,7 +29,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public class Client_Controller implements Initializable {// implementing initializable so that we can work with all the
     // injected fxml variables
@@ -80,18 +79,6 @@ public class Client_Controller implements Initializable {// implementing initial
         client.sendMessageToServer("q1u2i3t4");
         stage.close();
     }
-
-    // public void loggout(WindowEvent event) {
-    // try {
-    // stage = (Stage) ap_main.getScene().getWindow();
-    // client.sendMessageToServer(encryptor.encrypt(name + ": left the chat"));
-    // } catch (Exception e) {
-    // System.out.println("Error closing client directly");
-    // // e.printStackTrace();
-    // }
-    // client.sendMessageToServer("q1u2i3t4");
-    // stage.close();
-    // }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -3,7 +3,6 @@ package GUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.text.BreakIterator;
 
 import Encryption.Encryptdecrypt;
 import javafx.fxml.FXML;
@@ -59,25 +58,24 @@ public class Register_Controller {
         Databaseconnection conector = new Databaseconnection();
         Connection con = conector.getConnection();
 
-
         if (nameTextField.getText().isEmpty() || usernameTextField.getText().isEmpty()
                 || mobilenoTextField.getText().isEmpty() || passwordField.getText().isEmpty()) {
             warningOnRegistration.setText("All fields are required");
             return;
         }
-        if(mobilenoTextField.getText().length()!=10){
+        if (mobilenoTextField.getText().length() != 10) {
             warningOnRegistration.setText("Mobile number should be 10 digit");
             return;
         }
-        if(!isNumeric(mobilenoTextField.getText())){
+        if (!isNumeric(mobilenoTextField.getText())) {
             warningOnRegistration.setText("Mobile number should be numeric only");
             return;
         }
-        if(mobilenoTextField.getText().length()!=10){
+        if (mobilenoTextField.getText().length() != 10) {
             warningOnRegistration.setText("Mobile number should be 10 digit");
             return;
         }
-        if(passwordField.getText().length()<=4){
+        if (passwordField.getText().length() <= 4) {
             warningOnRegistration.setText("Password should be atleast 5 characters");
             return;
         }
