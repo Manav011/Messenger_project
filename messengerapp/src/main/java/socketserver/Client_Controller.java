@@ -22,6 +22,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -151,6 +153,43 @@ public class Client_Controller implements Initializable {// implementing initial
         send.setFitHeight(22.0);
         send.setFitWidth(28.0);
         button_send.setGraphic(send);
+
+        tf_message.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    String messageTosend = tf_message.getText();
+
+                    if (!messageTosend.isEmpty()) {
+                        HBox hBox = new HBox();
+                        hBox.setAlignment(Pos.CENTER_RIGHT);
+                        hBox.setPadding(new Insets(5, 5, 5, 10));
+
+                        Text text = new Text(messageTosend);
+                        TextFlow textFlow = new TextFlow(text);// TextFlow :using because if it's wrapping feature
+
+                        textFlow.setStyle("-fx-color: rgb(239,242,255);" +
+                                "-fx-background-color: rgb(15,125,242);" +
+                                "-fx-background-radius: 20px;");
+
+                        textFlow.setPadding(new Insets(5, 10, 5, 10));
+                        text.setFill(Color.color(.934, .935, .996));
+
+                        hBox.getChildren().add(textFlow);
+                        vbox_message.getChildren().add(hBox);
+
+                        try {
+                            client.sendMessageToServer(encryptor.encrypt(name + ": " + messageTosend));
+                        } catch (Exception e) {
+                            System.out.println("now sending the message from client " + name);
+                            e.printStackTrace();
+                        }
+                        tf_message.clear();
+                    }
+                }
+            }
+        });
+
         button_send.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -173,13 +212,6 @@ public class Client_Controller implements Initializable {// implementing initial
 
                     hBox.getChildren().add(textFlow);
                     vbox_message.getChildren().add(hBox);
-
-                    // Messagesent
-                    // try {
-                    // client.sendMessageToServer(encryptor.encrypt(messageTosend));
-                    // } catch (Exception e) {
-                    // throw new RuntimeException(e);
-                    // }
 
                     try {
                         client.sendMessageToServer(encryptor.encrypt(name + ": " + messageTosend));
