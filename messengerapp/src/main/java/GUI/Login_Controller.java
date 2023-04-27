@@ -81,7 +81,6 @@ public class Login_Controller {
 
             Login_Controller.name = nameIn.getText();
             System.out.println(Login_Controller.name);
-            // pass = passIn.getText();
 
             // System.out.println(name);
             // System.out.println(pass);
@@ -91,9 +90,6 @@ public class Login_Controller {
         } else {
             if (nameIn.getText().isBlank() == true || passIn.getText().isBlank() == true)
                 warningLabel.setText("Enter Your Username and Password!!!!");
-
-            // if (passIn.getText().isBlank() == true)
-            // warningLabel.setText("Enter Your Password!!!!");
         }
     }
 
@@ -118,7 +114,7 @@ public class Login_Controller {
                     second.setResizable(false);
                     second.setScene(new Scene(root, 460, 520));
                     second.show();
-                    // second.setOnCloseRequest(e -> new Client_Controller().logout(e));
+                    // second.setOnCloseRequest(e -> new Client_Controller().loggout(e));
 
                 } else {
                     warningLabel.setText("Wrong password entered!!");

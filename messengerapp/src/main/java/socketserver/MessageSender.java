@@ -4,8 +4,6 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import GUI.Login_Controller;
-
 public class MessageSender implements Runnable {
     private final static ArrayList<MessageSender> clientHandlers = new ArrayList<>();
     private static int clientNo;
@@ -21,7 +19,6 @@ public class MessageSender implements Runnable {
         clientHandlers.add(this);
         clientNo++;
         clientID = clientNo;
-        // sendToAll(name + ": joined the chat");
     }
 
     @Override
@@ -40,10 +37,9 @@ public class MessageSender implements Runnable {
             }
         }
         try {
-            // sendToAll(name + ": left the chat");
             socket.close();
         } catch (IOException e) {
-            System.out.println();
+            System.out.println("Error Sending Message");
         }
     }
 

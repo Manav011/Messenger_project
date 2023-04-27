@@ -1,5 +1,6 @@
 package socketserver;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -64,6 +66,8 @@ public class Client_Controller implements Initializable {// implementing initial
 
     private static final Encryptdecrypt encryptor = new Encryptdecrypt("1234567890123456");
 
+    private String ip;
+
     @FXML
     public void logout(ActionEvent event) {
         stage = (Stage) ap_main.getScene().getWindow();
@@ -71,29 +75,73 @@ public class Client_Controller implements Initializable {// implementing initial
             client.sendMessageToServer(encryptor.encrypt(name + ": left the chat"));
         } catch (Exception e) {
             System.out.println("not sending the left the chat");
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         client.sendMessageToServer("q1u2i3t4");
         stage.close();
     }
 
+    // public void loggout(WindowEvent event) {
+    // try {
+    // stage = (Stage) ap_main.getScene().getWindow();
+    // client.sendMessageToServer(encryptor.encrypt(name + ": left the chat"));
+    // } catch (Exception e) {
+    // System.out.println("Error closing client directly");
+    // // e.printStackTrace();
+    // }
+    // client.sendMessageToServer("q1u2i3t4");
+    // stage.close();
+    // }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Scanner sc = new Scanner(System.in);
-        try {
-            // System.out.println("Enter thr ip of Server: ");
-            client = new Client(new Socket("172.21.58.249", 1234));
-            name_label.setText(Login_Controller.name);
-            name = Login_Controller.name;
-            try {
-                client.sendMessageToServer(encryptor.encrypt(name + ": joined the chat"));
-            } catch (Exception e) {
-                System.out.println("not sending the left the chat");
-                e.printStackTrace();
+        Label serverconLabel = new Label("Enter the IP of Server");
+
+        VBox v = new VBox(10);
+        TextField ip_Field = new TextField();
+        Button b = new Button("Connect");
+        v.getChildren().add(serverconLabel);
+        v.getChildren().add(ip_Field);
+        HBox h = new HBox(b);
+        h.setAlignment(Pos.CENTER);
+        v.getChildren().add(h);
+        b.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ip = ip_Field.getText();
+                try {
+                    if (!ip.equals("")) {
+                        client = new Client(new Socket(ip, 1234));
+                        serverconLabel.setText("Close this window to open Client Window");
+                    } else {
+                        serverconLabel.setText("No IP detected");
+                    }
+
+                } catch (IOException e) {
+                    serverconLabel.setText("No server present on this IP");
+                    System.out.println("Error Creating Client");
+                    // e.printStackTrace();
+                }
             }
+        });
+
+        Stage ip_stage = new Stage();
+        ip_stage.setScene(new Scene(v, 225, 100));
+        ip_stage.setTitle("Server IP");
+        ip_stage.showAndWait();
+
+        if (ip.equals("")) {
+            System.out.println("IP not found");
+            System.exit(0);
+        }
+
+        name_label.setText(Login_Controller.name);
+        name = Login_Controller.name;
+        try {
+            client.sendMessageToServer(encryptor.encrypt(name + ": joined the chat"));
         } catch (Exception e) {
+            System.out.println("not sending the left the chat");
             e.printStackTrace();
-            System.out.println("Error Creating Client");
         }
 
         vbox_message.heightProperty().addListener(new ChangeListener<Number>() {
