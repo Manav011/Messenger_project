@@ -1,0 +1,2 @@
+Class-Path: mysql-connector-j-8.0.31.jar javafx-sdk-19.0.2.1/lib/
+Main-Class: GUI.App
