@@ -98,9 +98,9 @@ public class Register_Controller {
             ResultSet rs_ch_uid = check_userid_stmt.executeQuery();
             ResultSet rs_ch_mn = check_mn_stmt.executeQuery();
             if (rs_ch_uid.next()) {
-                registeredSuccessfullyLabel.setText("This username is already taken");
+                warningOnRegistration.setText("This username is already taken");
             } else if (rs_ch_mn.next()) {
-                registeredSuccessfullyLabel.setText("Account already exist on this mobile number");
+                warningOnRegistration.setText("Account already exist on this mobile number");
             } else {
                 upstmt.setString(1, usernameTextField.getText());
                 upstmt.setString(2, nameTextField.getText());
@@ -125,7 +125,7 @@ public class Register_Controller {
 
     public static boolean isNumeric(String str) {
         try {
-            Double.parseDouble(str);
+            Long.parseLong(str);
             return true;
         } catch (NumberFormatException e) {
             return false;

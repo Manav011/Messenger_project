@@ -36,12 +36,12 @@
          <font>
             <Font name="System Italic" size="14.0" />
          </font></Button>
-      <Label fx:id="registeredSuccessfullyLabel" layoutX="62.0" layoutY="75.0" prefHeight="19.0" prefWidth="283.0" textAlignment="CENTER" textFill="#1dff00">
+      <Label fx:id="registeredSuccessfullyLabel" layoutX="120.0" layoutY="75.0" prefHeight="19.0" prefWidth="283.0" textAlignment="CENTER" textFill="#1dff00">
          <font>
             <Font name="System Italic" size="13.0" />
          </font>
       </Label>
-      <Label fx:id="warningOnRegistration" layoutX="62.0" layoutY="75.0" prefHeight="19.0" prefWidth="283.0" textAlignment="CENTER" textFill="#ff2814">
+      <Label fx:id="warningOnRegistration" layoutX="100.0" layoutY="75.0" prefHeight="19.0" prefWidth="283.0" textAlignment="CENTER" textFill="#ff2814">
          <font>
             <Font name="System Italic" size="13.0" />
          </font>
